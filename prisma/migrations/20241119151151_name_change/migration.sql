@@ -14,7 +14,4 @@ CREATE TABLE "Employee" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Employee_name_key" ON "Employee"("name");
-
--- CreateIndex
 CREATE UNIQUE INDEX "Employee_email_key" ON "Employee"("email");
