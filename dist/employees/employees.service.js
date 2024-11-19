@@ -5,28 +5,57 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EmployeesService = void 0;
 const common_1 = require("@nestjs/common");
+const database_service_1 = require("../database/database.service");
 let EmployeesService = class EmployeesService {
-    create(createEmployeeDto) {
-        return 'This action adds a new employee';
+    constructor(databaseService) {
+        this.databaseService = databaseService;
     }
-    findAll() {
-        return `This action returns all employees`;
+    async create(createEmployeeDto) {
+        return this.databaseService.employee.create({
+            data: createEmployeeDto,
+        });
     }
-    findOne(id) {
-        return `This action returns a #${id} employee`;
+    async findAll(role) {
+        if (role)
+            return this.databaseService.employee.findMany({
+                where: {
+                    role,
+                },
+            });
+        return this.databaseService.employee.findMany();
     }
-    update(id, updateEmployeeDto) {
-        return `This action updates a #${id} employee`;
+    async findOne(id) {
+        return this.databaseService.employee.findUnique({
+            where: {
+                id,
+            },
+        });
     }
-    remove(id) {
-        return `This action removes a #${id} employee`;
+    async update(id, updateEmployeeDto) {
+        return this.databaseService.employee.update({
+            where: {
+                id,
+            },
+            data: updateEmployeeDto,
+        });
+    }
+    async remove(id) {
+        return this.databaseService.employee.delete({
+            where: {
+                id,
+            },
+        });
     }
 };
 exports.EmployeesService = EmployeesService;
 exports.EmployeesService = EmployeesService = __decorate([
-    (0, common_1.Injectable)()
+    (0, common_1.Injectable)(),
+    __metadata("design:paramtypes", [database_service_1.DatabaseService])
 ], EmployeesService);
 //# sourceMappingURL=employees.service.js.map

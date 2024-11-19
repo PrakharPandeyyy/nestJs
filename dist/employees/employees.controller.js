@@ -16,6 +16,7 @@ exports.EmployeesController = void 0;
 const common_1 = require("@nestjs/common");
 const employees_service_1 = require("./employees.service");
 const client_1 = require("@prisma/client");
+const throttler_1 = require("@nestjs/throttler");
 let EmployeesController = class EmployeesController {
     constructor(employeesService) {
         this.employeesService = employeesService;
@@ -45,6 +46,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], EmployeesController.prototype, "create", null);
 __decorate([
+    (0, throttler_1.SkipThrottle)({ default: false }),
     (0, common_1.Get)(),
     __param(0, (0, common_1.Query)('role')),
     __metadata("design:type", Function),
@@ -52,6 +54,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], EmployeesController.prototype, "findAll", null);
 __decorate([
+    (0, throttler_1.Throttle)({ short: { ttl: 1000, limit: 1 } }),
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
@@ -74,6 +77,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], EmployeesController.prototype, "remove", null);
 exports.EmployeesController = EmployeesController = __decorate([
+    (0, throttler_1.SkipThrottle)(),
     (0, common_1.Controller)('employees'),
     __metadata("design:paramtypes", [employees_service_1.EmployeesService])
 ], EmployeesController);
